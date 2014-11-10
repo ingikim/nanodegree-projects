@@ -12,8 +12,31 @@ var bio = {
 	"skills": [
 		"HTML", "CSS", "Javascript", "Ruby On Rails"
 	],
-	"bioPic": "images/profile.jpg"
+	"bioPic": "images/profile.jpg",
+	display: function () {
+		var formattedName = HTMLheaderName.replace("%data%", bio.name);
+		var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+		var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
+		var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
+		var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
+		var formattedTwitter = HTMLtwitter.replace("%data%", bio.contacts.twitter);
+		var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
+		var formattedBioPic = HTMLbioPic.replace("%data%", bio.bioPic);
+		var formattedWelcomeMsg = HTMLWelcomeMsg.replace("%data%", bio.welcomeMessage);
+
+		$("#header").prepend(formattedName + formattedRole);
+		$("#topContacts").append(formattedMobile + formattedEmail + formattedTwitter + formattedGithub + formattedLocation);
+		$("#footerContacts").append(formattedMobile + formattedEmail + formattedTwitter + formattedGithub + formattedLocation);	
+		$("#header").append(formattedBioPic);	
+		$("#header").append(formattedWelcomeMsg);
+		$("#header").append(HTMLskillsStart);
+		for (skill in bio.skills) {
+			var formattedSkill = HTMLskills.replace("%data%", bio.skills[skill]);
+			$("#skills").append(formattedSkill);
+		}
+	}
 };
+
 
 var education = {
 	"schools": [
@@ -24,6 +47,14 @@ var education = {
 			"majors": ["Cultural Tourism Contents"],
 			"dates": "March 2011 ~",
 			"url": "http://khu.ac.kr"
+		},
+		{
+			"name": "University of Central Florida",
+			"location": "Orlando, FL",
+			"degree": "Studying Abroad Program",
+			"majors": ["Hotel & Tourism"],
+			"dates": "July 2012 ~ August 2012",
+			"url": "http://www.ucf.edu"
 		}
 	],
 	"onlineCourses": [
@@ -39,7 +70,39 @@ var education = {
 			"dates": "October 2014 ~",
 			"url": "http://udacity.com"
 		}
-	]
+	],
+	displayschools: function() {
+		for (school in education.schools) {
+			$("#education").append(HTMLschoolStart);
+			var formattedName = HTMLschoolName.replace("%data%", education.schools[school].name);
+			formattedName = formattedName.replace("#", education.schools[school].url);
+			var formattedDegree = HTMLschoolDegree.replace("%data%", education.schools[school].degree);			
+			$(".education-entry:last").append(formattedName + formattedDegree);
+			var formattedDates = HTMLschoolDates.replace("%data%", education.schools[school].dates);
+			$(".education-entry:last").append(formattedDates);
+			var formattedLocation = HTMLschoolLocation.replace("%data%", education.schools[school].location);
+			$(".education-entry:last").append(formattedLocation);
+			var formattedMajors = HTMLschoolMajor.replace("%data%", education.schools[school].majors);
+			$(".education-entry:last").append(formattedMajors);
+		}
+	},
+	displayOnlineCourses: function() {
+		if (education.onlineCourses.length > 0 ) {
+			$("#education").append(HTMLonlineClasses);
+			for (course in education.onlineCourses) {
+				$("#education").append(HTMLschoolStart);
+				var formattedTitle = HTMLonlineTitle.replace("%data%", education.onlineCourses[course].title);
+				formattedTitle = formattedTitle.replace("#", education.onlineCourses[course].url);
+				var formattedSchool = HTMLonlineSchool.replace("%data%", education.onlineCourses[course].school);
+				$(".education-entry:last").append(formattedTitle + formattedSchool);
+				var formattedDates = HTMLonlineDates.replace("%data%", education.onlineCourses[course].dates);
+				$(".education-entry:last").append(formattedDates);
+				var formattedURL = HTMLonlineURL.replace("%data%", education.onlineCourses[course].url);
+				formattedURL = formattedURL.replace("#", education.onlineCourses[course].url);
+				$(".education-entry:last").append(formattedURL);
+			}			
+		}
+	}
 };
 
 
@@ -59,8 +122,29 @@ var work = {
 			"dates": "January 2013 ~ March 2013",
 			"description": "9Flava is the Kroean developer of Wepass, a mobile card service that provides target marketing to businesses through its point card system and data analysis. I was a marketing intern."
 		}
-	]
+	],
+	display: function() {
+		for(job in work.jobs) {
+			// create new div for work experience
+			$("#workExperience").append(HTMLworkStart);
+			// concat employer and title
+			var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
+			var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
+			var formattedEmployerTitle = formattedEmployer + formattedTitle;
+			$(".work-entry:last").append(formattedEmployerTitle);
+
+			var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
+			$(".work-entry:last").append(formattedLocation);
+
+			var formattedDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
+			$(".work-entry:last").append(formattedDates);
+
+			var formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
+			$(".work-entry:last").append(formattedDescription);
+		}
+	}
 };
+
 
 var projects = {
 	"projects": [
@@ -82,48 +166,29 @@ var projects = {
 			"description": "Udacity Front-End Web Developer Nanodegree Project 1 associated with Intro to HTML and CSS course",
 			"images": ["images/portfolio_mockup.jpg"]
 		}
-	]
+	],
+	display: function() {
+		for (project in projects.projects) {
+			$("#projects").append(HTMLprojectStart);
+			
+			var formattedTitle = HTMLprojectTitle.replace("%data%", projects.projects[project].title);
+			$(".project-entry:last").append(formattedTitle);
+
+			var formattedDates = HTMLprojectDates.replace("%data%", projects.projects[project].dates);
+			$(".project-entry:last").append(formattedDates);
+
+			var formattedDescription = HTMLprojectDescription.replace("%data%", projects.projects[project].description);
+			$(".project-entry:last").append(formattedDescription);
+
+			if (projects.projects[project].images.length > 0) {
+				for (image in projects.projects[project].images) {
+					var formattedImage = HTMLprojectImage.replace("%data%", projects.projects[project].images[image]);
+					$(".project-entry:last").append(formattedImage);
+				}
+			}
+		}
+	}
 };
-
-
-if(bio.skills.length > 0) {
-
-	$("#header").append(HTMLskillsStart);
-
-	var formattedSkill = HTMLskills.replace("%data%", bio.skills[0]);
-	$("#skills").append(formattedSkill);
-	formattedSkill = HTMLskills.replace("%data%", bio.skills[1]);
-	$("#skills").append(formattedSkill);
-	formattedSkill = HTMLskills.replace("%data%", bio.skills[2]);
-	$("#skills").append(formattedSkill);
-	formattedSkill = HTMLskills.replace("%data%", bio.skills[3]);
-	$("#skills").append(formattedSkill);
-
-};
-
-function displayWork() {
-	for(job in work.jobs) {
-		// create new div for work experience
-		$("#workExperience").append(HTMLworkStart);
-		// concat employer and title
-		var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
-		var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
-		var formattedEmployerTitle = formattedEmployer + formattedTitle;
-		$(".work-entry:last").append(formattedEmployerTitle);
-
-		var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
-		$(".work-entry:last").append(formattedLocation);
-
-		var formattedDates = HTMLworkDates.replace("%data%", work.jobs[job].dates);
-		$(".work-entry:last").append(formattedDates);
-
-		var formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
-		$(".work-entry:last").append(formattedDescription);
-	};	
-};
-
-displayWork();
-
 
 
 /* function locationizer(work_obj) {
@@ -150,41 +215,9 @@ displayWork();
 $("#main").append(internationalizeButton); */
 
 
-projects.display = function() {
-	for (project in projects.projects) {
-		$("#projects").append(HTMLprojectStart);
-		
-		var formattedTitle = HTMLprojectTitle.replace("%data%", projects.projects[project].title);
-		$(".project-entry:last").append(formattedTitle);
-
-		var formattedDates = HTMLprojectDates.replace("%data%", projects.projects[project].dates);
-		$(".project-entry:last").append(formattedDates);
-
-		var formattedDescription = HTMLprojectDescription.replace("%data%", projects.projects[project].description);
-		$(".project-entry:last").append(formattedDescription);
-
-		if (projects.projects[project].images.length > 0) {
-			for (image in projects.projects[project].images) {
-				var formattedImage = HTMLprojectImage.replace("%data%", projects.projects[project].images[image]);
-				$(".project-entry:last").append(formattedImage);
-			}
-		}
-	}
-}
-
+bio.display();
+work.display();
 projects.display();
-
-
+education.displayschools();
+education.displayOnlineCourses();
 $("#mapDiv").append(googleMap);
-
-
-
-
-
-
-
-
-
-
-
-
