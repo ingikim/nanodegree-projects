@@ -199,7 +199,7 @@ function gameOver() {
         ctx.fillStyle="black";
         ctx.fillText("Game Over!", 330, 100);
         ctx.font="30px Roboto Condensed";
-        ctx.fillText("Your final score is " + score, 330, 150);
+        ctx.fillText("Your final score is " + score, 331, 150);
         keyEnabled = false;
 }
 
