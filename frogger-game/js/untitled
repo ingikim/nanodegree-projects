@@ -56,7 +56,7 @@ Enemy.prototype.getRandomSpeed = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-    this.xRange = [-2, 707];
+    this.xRange = [-2, 1000];
     this.yRange = [-20, 380];
     this.sprite = 'images/char-boy.png';
     this.reset();
@@ -66,16 +66,12 @@ Player.prototype.update = function() {
     this.checkCollisions();
 }
 
-Player.prototype.checkCollisions = function() {  
-    if (this.y === -20) {
-        roundLife.loseLife();        
-        this.reset();
-    } else if (this.y >= 60 && this.y <= 220) {
+Player.prototype.checkCollisions = function() {
+    if (this.y >= 60 && this.y <= 220) {
         var self = this;
         allEnemies.forEach(function(enemy) {
             if (enemy.y == self.y) {
                 if (enemy.x >= player.x -30 && enemy.x <= player.x + 30) {
-                    roundLife.loseLife();
                     self.reset();
                 }
             }
@@ -94,9 +90,9 @@ Player.prototype.render = function() {
 
 Player.prototype.handleInput = function(key) {
     if (key === 'left') {
-        this.x -= (this.x < this.xRange[0]) ? 0 : 101;
+        this.x -= (this.x - 101 < this.xRange[0]) ? 0 : 101;
     } else if (key === 'right') {
-        this.x += (this.x > this.xRange[1]) ? 0 : 101;
+        this.x += (this.x + 101 > this.xRange[1]) ? 0 : 101;
     } else if (key === 'up') {
         this.y -= (this.y - 80 < this.yRange[0]) ? 0 : 80;
     } else if (key === 'down') {
@@ -104,56 +100,53 @@ Player.prototype.handleInput = function(key) {
     }
 }
 
-// Create a Life class to track the number of player's lives.
-var Life = function() {
-    this.lifeImg = 'images/Heart-small.png';
-    this.number = 5;
-}
+var score = 0;
 
-Life.prototype.render = function() {
-    var lifeImgX = 0;
-    ctx.clearRect(0, 0, 242 - lifeImgX, 50);
-    for(x = 0; x < this.number; x++) {
-        ctx.drawImage(Resources.get(this.lifeImg), lifeImgX, 0);
-        lifeImgX += 48;
+function collectGem() {
+    document.getElementById('score').innerHTML = "Score: " + score;
+    if(player.y === -20) {
+        if(player.x === 0) {
+            score = score + 3;
+        }
+        else if(player.x === 202 || player.x === 404 || player.x === 606 || player.x === 808) {
+            score = score + 1;
+        }
+        else {
+            player.reset();
+        }
     }
-    if(this.number === 0) {
-        gameOver();
-    }
-}
 
-Life.prototype.loseLife = function () {
-    if(this.number > 0) this.number--;
 }
 
 // Show gems on the map randomly.
-var Gem = function() {
+/* var Gem = function() {
     this.gemImages = ['images/Gem-Blue.png', 'images/Gem-Green.png', 'images/Gem-Orange.png'];
     this.gemPosX = [0, 101, 202, 303, 404, 505, 606, 707, 808];
-    this.gemPosY = [60, 143, 226];
+    this.gemPosY = [60, 140, 220];
     this.gemImg = this.gemImages[Math.floor(Math.random() * 3)];
     this.x = this.gemPosX[Math.floor(Math.random() * 9)];
     this.y = this.gemPosY[Math.floor(Math.random() * 3)];
 }
 
 Gem.prototype.update = function() {
-    document.getElementById('score').innerHTML = "Score " + score;
-    if(player.y <= this.y + 30 && player.y >= this.y - 30 && player.x <= this.x + 30 && player.x >= this.x - 30) {
-        score++;
-        this.gemImg = this.gemImages[Math.floor(Math.random() * 3)];
-        this.x = this.gemPosX[Math.floor(Math.random() * 9)];
+    if (player.x === this.x && player.y === this.y) {
+        this.gemImg = gemImages[Math.floor(Math.random() * 3)];
+        this.x = gemPosX[Math.floor(Math.random() * 9)];
         this.y = this.gemPosY[Math.floor(Math.random() * 3)];
         if (allEnemies.length < 10) {
             allEnemies.push(new Enemy());
         }
-    }    
+    }
 }
 
 Gem.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.gemImg), this.x, this.y);
-}
+    ctx.drawImage(Resources.get(this.getImg), this.x, this.y);
+} */
 
-var score = 0;
+
+
+
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -165,8 +158,8 @@ var allEnemies = [enemy1, enemy2, enemy3];
 
 var player = new Player();
 
-var gem = new Gem();
-var roundLife = new Life();
+// var gem = new Gem();
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -188,6 +181,7 @@ document.addEventListener("keydown", function(e) {
     }
 }, false);
 
+
 //when time runs out or player loses all lives, the game is over.
 function gameOver() {
     var removeScore = document.getElementById('score');
@@ -196,12 +190,13 @@ function gameOver() {
         timer.parentNode.removeChild(timer);
         ctx.clearRect(0, 0, 909, 606);
         ctx.font = "50px Roboto Condensed";
-        ctx.fillStyle="black";
-        ctx.fillText("Game Over!", 330, 100);
+        ctx.fillStyle="white";
+        ctx.fillText("Game Over!", 140, 100);
         ctx.font="30px Roboto Condensed";
-        ctx.fillText("Your final score is " + score, 330, 150);
+        ctx.fillText("Your final score is " + score, 140, 150);
         keyEnabled = false;
 }
+
 
 // Create a 60-second timed game
 var timer;
@@ -236,3 +231,25 @@ function updateTimer() {
 function LeadingZero(Time) {
     return (Time < 10) ? "0" + Time : + Time;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -68,7 +68,7 @@ var Engine = (function(global) {
         lastTime = Date.now();
         document.getElementById('start').onclick =function() {
             main();
-            createTimer('timer', 10);
+            createTimer('timer', 60);
             document.getElementById('timer').style.display = "inline-block";
             document.getElementById('refresh').style.display = "inline-block";
             var h2 = document.getElementById('description');
@@ -165,6 +165,7 @@ var Engine = (function(global) {
 
         player.render();
         gem.render();
+        roundLife.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -187,7 +188,9 @@ var Engine = (function(global) {
         'images/char-boy.png',
         'images/Gem-Blue.png',
         'images/Gem-Green.png',
-        'images/Gem-Orange.png'
+        'images/Gem-Orange.png',
+        'images/Heart.png',
+        'images/Heart-small.png'
     ]);
     Resources.onReady(init);
 
