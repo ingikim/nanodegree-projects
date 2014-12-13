@@ -1,5 +1,5 @@
 body {
-	font: 300 1em 'Lato', sans-serif;
+	font: 300 1.5em 'Lato', sans-serif;
 	color: #747704;
 }
 
@@ -7,7 +7,7 @@ body {
 hr {
 	background: #bcbbbb;
 	border: 0;
-	height: .3em;
+	height: .4em;
 }
 
 
@@ -37,6 +37,33 @@ hr {
 	opacity: 1;
 }
 
+.ic {
+	color: #535353;
+	width: 2em;
+}
+
+.ic:hover {
+  	text-decoration: none;
+  	color: #AFB42B;
+}
+
+.ic:focus {
+	text-decoration: none;
+}
+
+.contact-row {
+	margin: 30px 0;
+}
+
+.modal-content {
+	color: #353535;
+	line-height: 170%
+}
+
+a.link-text {
+	text-decoration: none;
+	color: #bcbbbb;
+}
 
 /* Header */
 
