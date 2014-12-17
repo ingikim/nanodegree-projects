@@ -39,6 +39,8 @@ need to load. You'll see a lot of <link>s to CSS files for styles and
   <!-- More on helper.js in the class -->
   <script src="js/helper.js"></script>
 
+  <script src="js/interaction.js"></script>
+
   <!--
   Uncomment the <script> tag below when you're ready to add an interactive
   Google Map to your resume!
@@ -58,21 +60,34 @@ need to load. You'll see a lot of <link>s to CSS files for styles and
     <div id="header" class="center-content">
       <ul id="topContacts" class='flex-box'></ul>
     </div>
+    <nav id="nav-bar" class=>
+      <ul id="nav-menu">
+        <li><a class="nav-item" href="#workExperience">WORK</a>
+        </li>
+        <li><a class="nav-item" href="#projects">PROJECTS</a>
+        </li>
+        <li><a class="nav-item" href="#education">EDUCATION</a>
+        </li>
+      </ul>
+    </nav>
     <div style='clear: both;'></div>
-    <div id="workExperience" class='gray'>
-      <h2>Work Experience</h2>
+    <div id="summary" class="sections">
+      <h2 class="sub-title">Summary</h2>
     </div>
-    <div id="projects">
-      <h2>Projects</h2>
+    <div id="workExperience" class="sections gray">
+      <h2 class="sub-title">Work Experience</h2>
     </div>
-    <div id="education" class='gray'>
-      <h2>Education</h2>
+    <div id="projects" class="sections">
+      <h2 class="sub-title">Projects</h2>
+    </div>
+    <div id="education" class="sections gray">
+      <h2 class="sub-title">Education</h2>
     </div>
     <div id="skillsChart">
       <h2>Skills Chart</h2>
     </div>
     <div id="mapDiv">
-      <h2>Where I've Lived and Worked</h2>
+      <h2 class="sub-title">Where I've Lived and Worked</h2>
     </div>
     <div id="letsConnect" class='dark-gray'>
       <h2 class='orange center-text'>Let's Connect</h2>
